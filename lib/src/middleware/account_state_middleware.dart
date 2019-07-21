@@ -41,7 +41,7 @@ class AccountStateMiddleware extends MiddlewareClass<SputnikAppState> {
 
         handleRedactions(database, store, roomEventBatch, roomId, room.timeline.events.where((e) => e.redacts != null));
 
-        final lastRelevantRoomEvent = room.timeline.events.lastWhere((e) => e.type == 'm.room.message', orElse: () => null);
+        final lastRelevantRoomEvent = room.timeline.events.lastWhere(EventFilter.isRelevant, orElse: () => null);
         if (lastRelevantRoomEvent != null) {
           roomSummaryBatch.updateLastRelevantRoomEvent(roomId, lastRelevantRoomEvent);
         }
